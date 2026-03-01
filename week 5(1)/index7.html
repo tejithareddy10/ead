@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Constructor Function Programs</title>
+</head>
+<body>
+
+<h2>Constructor Function Examples</h2>
+
+<input type="text" id="inputA" placeholder="Enter Name / Account / Employee">
+<input type="number" id="inputB" placeholder="Enter Value 1">
+<input type="number" id="inputC" placeholder="Enter Value 2 (optional)">
+<br><br>
+
+<button onclick="createStudent()">Create Student</button>
+<button onclick="createAccount()">Bank Deposit</button>
+<button onclick="createEmployee()">Calculate Salary</button>
+
+<p id="displayArea"></p>
+
+<script>
+
+// 1️⃣ Student Object Constructor
+function Student(fullName, marks) {
+
+    this.name = fullName;
+    this.marks = marks;
+
+    this.getGrade = function() {
+        if (this.marks >= 75) return "Distinction";
+        if (this.marks >= 50) return "Pass";
+        return "Fail";
+    };
+}
+
+function createStudent() {
+
+    let studentName = document.getElementById("inputA").value;
+    let studentMarks = parseFloat(document.getElementById("inputB").value);
+
+    let studentObj = new Student(studentName, studentMarks);
+
+    document.getElementById("displayArea").innerText =
+        "Student: " + studentObj.name +
+        " | Marks: " + studentObj.marks +
+        " | Grade: " + studentObj.getGrade();
+}
+
+
+
+// 2️⃣ Bank Account Constructor
+function BankAccount(holderName, balance) {
+
+    this.accountHolder = holderName;
+    this.balance = balance;
+
+    this.depositAmount = function(amount) {
+        this.balance += amount;
+        return this.balance;
+    };
+}
+
+function createAccount() {
+
+    let holder = document.getElementById("inputA").value;
+    let initialBalance = parseFloat(document.getElementById("inputB").value);
+    let deposit = parseFloat(document.getElementById("inputC").value);
+
+    let accountObj = new BankAccount(holder, initialBalance);
+
+    let updatedBalance = accountObj.depositAmount(deposit || 0);
+
+    document.getElementById("displayArea").innerText =
+        "Account Holder: " + accountObj.accountHolder +
+        " | Updated Balance: " + updatedBalance;
+}
+
+
+
+// 3️⃣ Employee Payroll Constructor
+function Employee(empName, basicSalary) {
+
+    this.name = empName;
+    this.basic = basicSalary;
+
+    this.calculateNetSalary = function() {
+
+        let allowance = this.basic * 0.2;   // 20% allowance
+        let tax = this.basic * 0.1;         // 10% tax
+
+        return this.basic + allowance - tax;
+    };
+}
+
+function createEmployee() {
+
+    let empName = document.getElementById("inputA").value;
+    let basicSalary = parseFloat(document.getElementById("inputB").value);
+
+    let employeeObj = new Employee(empName, basicSalary);
+
+    document.getElementById("displayArea").innerText =
+        "Employee: " + employeeObj.name +
+        " | Net Salary: " + employeeObj.calculateNetSalary();
+}
+
+</script>
+
+</body>
+</html>

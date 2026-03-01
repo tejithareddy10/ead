@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Number Checker</title>
+</head>
+<body>
+
+<h2>Number Operations</h2>
+
+<input type="number" id="numberInput" placeholder="Enter a number">
+<button onclick="showFactorial()">Factorial</button>
+<button onclick="checkPalindrome()">Palindrome</button>
+<button onclick="checkArmstrong()">Armstrong</button>
+
+<p id="resultArea"></p>
+
+<script>
+
+function computeFact(value) {
+    let total = 1;
+    for (let step = 2; step <= value; step++) {
+        total *= step;
+    }
+    return total;
+}
+
+function verifyPalindrome(value) {
+    let originalValue = value;
+    let reversedValue = 0;
+
+    while (value > 0) {
+        reversedValue = reversedValue * 10 + (value % 10);
+        value = Math.floor(value / 10);
+    }
+
+    return originalValue === reversedValue;
+}
+
+function verifyArmstrong(value) {
+    let originalValue = value;
+    let sumValue = 0;
+    let digitCount = value.toString().length;
+
+    while (value > 0) {
+        let part = value % 10;
+        sumValue += part ** digitCount;
+        value = Math.floor(value / 10);
+    }
+
+    return originalValue === sumValue;
+}
+
+function showFactorial() {
+    let inputVal = parseInt(document.getElementById("numberInput").value);
+    document.getElementById("resultArea").innerText =
+        "Factorial: " + computeFact(inputVal);
+}
+
+function checkPalindrome() {
+    let inputVal = parseInt(document.getElementById("numberInput").value);
+    document.getElementById("resultArea").innerText =
+        "Palindrome: " + verifyPalindrome(inputVal);
+}
+
+function checkArmstrong() {
+    let inputVal = parseInt(document.getElementById("numberInput").value);
+    document.getElementById("resultArea").innerText =
+        "Armstrong: " + verifyArmstrong(inputVal);
+}
+
+</script>
+
+</body>
+</html>

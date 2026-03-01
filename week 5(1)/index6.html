@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Callback Function Programs</title>
+</head>
+<body>
+
+<h2>Callback Function Examples</h2>
+
+<input type="text" id="inputOne" placeholder="Enter first value / array">
+<input type="text" id="inputTwo" placeholder="Enter second value (if needed)">
+<br><br>
+
+<button onclick="performCalculation()">Calculator</button>
+<button onclick="processArray()">Array Processor</button>
+<button onclick="simulateLogin()">Authentication</button>
+
+<p id="resultDisplay"></p>
+
+<script>
+
+// 1️⃣ Calculator using Callback
+function calculateValues(a, b, operationCallback) {
+    return operationCallback(a, b);
+}
+
+function performCalculation() {
+
+    let num1 = parseFloat(document.getElementById("inputOne").value);
+    let num2 = parseFloat(document.getElementById("inputTwo").value);
+
+    // Example: Addition callback
+    let result = calculateValues(num1, num2, function(x, y) {
+        return x + y;
+    });
+
+    document.getElementById("resultDisplay").innerText =
+        "Result (Addition using Callback): " + result;
+}
+
+
+// 2️⃣ Array Processor using Callback
+function processEachElement(arrayData, callbackFunction) {
+
+    let processedArray = [];
+
+    for (let i = 0; i < arrayData.length; i++) {
+        processedArray.push(callbackFunction(arrayData[i]));
+    }
+
+    return processedArray;
+}
+
+function processArray() {
+
+    let rawInput = document.getElementById("inputOne").value;
+
+    let numberArray = rawInput.split(",")
+                              .map(value => parseFloat(value.trim()))
+                              .filter(value => !isNaN(value));
+
+    // Example: Square each number using callback
+    let resultArray = processEachElement(numberArray, function(num) {
+        return num * num;
+    });
+
+    document.getElementById("resultDisplay").innerText =
+        "Processed Array (Squared): " + resultArray.join(", ");
+}
+
+
+// 3️⃣ Authentication Simulation (Sequential Callback)
+function checkCredentials(username, password, successCallback, failureCallback) {
+
+    let correctUser = "admin";
+    let correctPass = "1234";
+
+    if (username === correctUser && password === correctPass) {
+        successCallback();
+    } else {
+        failureCallback();
+    }
+}
+
+function simulateLogin() {
+
+    let user = document.getElementById("inputOne").value;
+    let pass = document.getElementById("inputTwo").value;
+
+    checkCredentials(
+        user,
+        pass,
+        function() {
+            document.getElementById("resultDisplay").innerText =
+                "Login Successful!";
+        },
+        function() {
+            document.getElementById("resultDisplay").innerText =
+                "Login Failed!";
+        }
+    );
+}
+
+</script>
+
+</body>
+</html>

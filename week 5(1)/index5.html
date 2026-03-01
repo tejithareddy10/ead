@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Higher Order Functions</title>
+</head>
+<body>
+
+<h2>Higher-Order Function Programs</h2>
+
+<input type="number" id="valueOne" placeholder="Enter Amount / Salary">
+<input type="number" id="valueTwo" placeholder="Enter Percentage (optional)">
+<br><br>
+
+<button onclick="applyDiscount()">Discount Calculator</button>
+<button onclick="applyTax()">Tax Generator</button>
+<button onclick="trackLogin()">Login Attempt</button>
+
+<p id="outputSection"></p>
+
+<script>
+
+function createDiscount(discountPercent) {
+
+    return function(amount) {
+        let discountAmount = (amount * discountPercent) / 100;
+        return amount - discountAmount;
+    };
+}
+
+function applyDiscount() {
+
+    let amount = parseFloat(document.getElementById("valueOne").value);
+    let percent = parseFloat(document.getElementById("valueTwo").value) || 10;
+
+    let discountFunction = createDiscount(percent);
+
+    let finalPrice = discountFunction(amount);
+
+    document.getElementById("outputSection").innerText =
+        "Final Price after Discount: " + finalPrice;
+}
+
+function generateTaxCalculator(taxRate) {
+
+    return function(income) {
+        let taxAmount = (income * taxRate) / 100;
+        return income - taxAmount;
+    };
+}
+
+function applyTax() {
+
+    let income = parseFloat(document.getElementById("valueOne").value);
+    let rate = parseFloat(document.getElementById("valueTwo").value) || 8;
+
+    let taxCalculator = generateTaxCalculator(rate);
+
+    let remainingIncome = taxCalculator(income);
+
+    document.getElementById("outputSection").innerText =
+        "Income after Tax: " + remainingIncome;
+}
+
+
+function createLoginTracker() {
+
+    let attemptCount = 0;
+
+    return function() {
+        attemptCount++;
+
+        if (attemptCount >= 3) {
+            return "Account Locked after " + attemptCount + " attempts!";
+        }
+
+        return "Login Attempt " + attemptCount;
+    };
+}
+
+const loginTracker = createLoginTracker();
+
+function trackLogin() {
+
+    document.getElementById("outputSection").innerText =
+        loginTracker();
+}
+
+</script>
+
+</body>
+</html>

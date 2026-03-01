@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Default Parameter Programs</title>
+</head>
+<body>
+
+<h2>Default Parameter Function Programs</h2>
+
+<input type="number" id="firstValue" placeholder="Enter First Value">
+<input type="number" id="secondValue" placeholder="Enter Second Value (optional)">
+<input type="number" id="thirdValue" placeholder="Enter Third Value (optional)">
+
+<br><br>
+
+<button onclick="calculateSI()">Simple Interest</button>
+<button onclick="calculatePower()">Power</button>
+<button onclick="calculateSalary()">Net Salary</button>
+
+<p id="displayResult"></p>
+
+<script>
+
+// 1️⃣ Simple Interest (Default Rate = 5%)
+const computeSimpleInterest = (principal, time, rate = 5) => {
+
+    return (principal * time * rate) / 100;
+};
+
+
+// 2️⃣ Power Function (Default Exponent = 2)
+const computePower = (baseNumber, exponent = 2) => {
+
+    return baseNumber ** exponent;
+};
+
+
+// 3️⃣ Salary Calculator
+// Default HRA = 2000, Default Bonus = 1500
+const generateSalary = (basicSalary, hra = 2000, bonus = 1500) => {
+
+    let grossSalary = basicSalary + hra + bonus;
+
+    let taxDeduction = grossSalary * 0.1; // 10% tax
+
+    return grossSalary - taxDeduction;
+};
+
+
+// Button Functions
+function calculateSI() {
+
+    let p = parseFloat(document.getElementById("firstValue").value);
+    let t = parseFloat(document.getElementById("secondValue").value);
+    let r = parseFloat(document.getElementById("thirdValue").value);
+
+    let result = computeSimpleInterest(p, t, r || undefined);
+
+    document.getElementById("displayResult").innerText =
+        "Simple Interest: " + result;
+}
+
+
+function calculatePower() {
+
+    let base = parseFloat(document.getElementById("firstValue").value);
+    let exp = parseFloat(document.getElementById("secondValue").value);
+
+    let result = computePower(base, exp || undefined);
+
+    document.getElementById("displayResult").innerText =
+        "Power Result: " + result;
+}
+
+
+function calculateSalary() {
+
+    let basic = parseFloat(document.getElementById("firstValue").value);
+    let hra = parseFloat(document.getElementById("secondValue").value);
+    let bonus = parseFloat(document.getElementById("thirdValue").value);
+
+    let result = generateSalary(basic, hra || undefined, bonus || undefined);
+
+    document.getElementById("displayResult").innerText =
+        "Net Salary: " + result;
+}
+
+</script>
+
+</body>
+</html>

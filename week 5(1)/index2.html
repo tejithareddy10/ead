@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>String Operations</title>
+</head>
+<body>
+
+<h2>String Function Expression Programs</h2>
+
+<input type="text" id="textInput" placeholder="Enter text here">
+<button onclick="showReverse()">Reverse String</button>
+<button onclick="showVowelCount()">Count Vowels</button>
+<button onclick="showLongestWord()">Longest Word</button>
+
+<p id="outputArea"></p>
+
+<script>
+
+// 1️⃣ Reverse String (Anonymous Function)
+let reverseString = function(userText) {
+
+    let reversedText = "";
+
+    for (let i = userText.length - 1; i >= 0; i--) {
+        reversedText += userText[i];
+    }
+
+    return reversedText;
+};
+
+
+// 2️⃣ Count Vowels (Function Expression)
+let countVowelLetters = function(userText) {
+
+    let vowelTotal = 0;
+    let formattedText = userText.toLowerCase();
+
+    for (let index = 0; index < formattedText.length; index++) {
+
+        let letter = formattedText[index];
+
+        if (letter === "a" || letter === "e" ||
+            letter === "i" || letter === "o" ||
+            letter === "u") {
+
+            vowelTotal++;
+        }
+    }
+
+    return vowelTotal;
+};
+
+
+// 3️⃣ Longest Word Finder (Anonymous Function)
+let getLongestWord = function(sentenceText) {
+
+    let wordsList = sentenceText.split(" ");
+    let biggestWord = "";
+
+    for (let position = 0; position < wordsList.length; position++) {
+
+        if (wordsList[position].length > biggestWord.length) {
+            biggestWord = wordsList[position];
+        }
+    }
+
+    return biggestWord;
+};
+
+
+// Button Functions
+function showReverse() {
+
+    let inputText = document.getElementById("textInput").value;
+
+    document.getElementById("outputArea").innerText =
+        "Reversed String: " + reverseString(inputText);
+}
+
+function showVowelCount() {
+
+    let inputText = document.getElementById("textInput").value;
+
+    document.getElementById("outputArea").innerText =
+        "Total Vowels: " + countVowelLetters(inputText);
+}
+
+function showLongestWord() {
+
+    let inputText = document.getElementById("textInput").value;
+
+    document.getElementById("outputArea").innerText =
+        "Longest Word: " + getLongestWord(inputText);
+}
+
+</script>
+
+</body>
+</html>
