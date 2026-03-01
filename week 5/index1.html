@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Login Page</title>
+    <style>
+        /* Basic Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            width: 400px;
+            max-width: 90%;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            background: #007bff;
+            color: #fff;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background: #888;
+            cursor: not-allowed;
+        }
+
+        #message {
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: bold;
+            color: red;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 500px) {
+            .login-container {
+                width: 95%;
+                padding: 1rem;
+            }
+
+            input, button {
+                padding: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="Enter username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter password" required>
+
+            <button type="submit">Login</button>
+            <p id="message"></p>
+        </form>
+    </div>
+
+    <script>
+        // Smart Login with Attempt Tracker using Closure
+        const loginForm = document.getElementById("loginForm");
+        const message = document.getElementById("message");
+
+        // Hardcoded credentials
+        const correctUsername = "admin";
+        const correctPassword = "12345";
+
+        // Closure to track login attempts
+        function createAttemptTracker(maxAttempts) {
+            let attempts = 0;
+            return {
+                increment: function() {
+                    attempts++;
+                    return attempts;
+                },
+                getAttempts: function() {
+                    return attempts;
+                },
+                isLocked: function() {
+                    return attempts >= maxAttempts;
+                }
+            };
+        }
+
+        const tracker = createAttemptTracker(3);
+
+        loginForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            if (tracker.isLocked()) {
+                message.textContent = "Maximum attempts reached. Login disabled.";
+                return;
+            }
+
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            if (username === "" || password === "") {
+                message.textContent = "Please fill in all fields!";
+                return;
+            }
+
+            if (username === correctUsername && password === correctPassword) {
+                message.style.color = "green";
+                message.textContent = "Login Successful!";
+            } else {
+                const attempts = tracker.increment();
+                message.style.color = "red";
+                message.textContent = `Login Failed! Attempts left: ${3 - attempts}`;
+                if (tracker.isLocked()) {
+                    message.textContent = "Maximum attempts reached. Login disabled.";
+                    loginForm.querySelector("button").disabled = true;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

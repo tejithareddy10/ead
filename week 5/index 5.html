@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Payroll System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to right, #4e73df, #1cc88a);
+            font-family: Arial;
+        }
+        .container {
+            background: white;
+            padding: 25px;
+            width: 380px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 8px;
+            background: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2e59d9;
+        }
+        .result {
+            margin-top: 15px;
+            text-align: left;
+            font-size: 14px;
+        }
+        @media (max-width: 500px) {
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Employee Salary Calculator</h2>
+        <input type="text" id="name" placeholder="Enter Employee Name">
+        <input type="number" id="basic" placeholder="Enter Basic Salary">
+        <input type="number" id="hra" placeholder="Enter HRA (Optional)">
+        <input type="number" id="ta" placeholder="Enter TA (Optional)">
+        <button onclick="generateSalary()">Calculate Salary</button>
+        <div class="result">
+            <p id="gross"></p>
+            <p id="tax"></p>
+            <p id="net"></p>
+        </div>
+    </div>
+    <script>
+        function Employee(name, basicSalary, hra = 2000, ta = 1000) {
+            this.name = name;
+            this.basicSalary = basicSalary;
+            this.hra = hra;
+            this.ta = ta;
+            this.calculateNetSalary = function () {
+                let grossSalary = this.basicSalary + this.hra + this.ta;
+                let taxAmount = grossSalary * 0.10;
+                let netSalary = grossSalary - taxAmount;
+                return {
+                    gross: grossSalary,
+                    tax: taxAmount,
+                    net: netSalary
+                };
+            };
+        }
+        function generateSalary() {
+            let name = document.getElementById("name").value;
+            let basic = parseFloat(document.getElementById("basic").value);
+            let hra = document.getElementById("hra").value;
+            let ta = document.getElementById("ta").value;
+            let employee = new Employee(
+                name,
+                basic,
+                hra ? parseFloat(hra) : undefined,
+                ta ? parseFloat(ta) : undefined
+            );
+            let salary = employee.calculateNetSalary();
+            document.getElementById("gross").innerText =
+                "Gross Salary: ₹ " + salary.gross;
+            document.getElementById("tax").innerText =
+                "Tax (10%): ₹ " + salary.tax;
+            document.getElementById("net").innerText =
+                "Net Salary: ₹ " + salary.net;
+        }
+    </script>
+</body>
+</html>

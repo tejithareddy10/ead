@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Number Analyzer Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to right, #4e73df, #1cc88a);
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 8px;
+            background: #4e73df;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #2e59d9;
+        }
+
+        .result {
+            margin-top: 15px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Number Analyzer</h2>
+        <input type="number" id="numberInput" placeholder="Enter a number">
+        <button onclick="analyzeNumber()">Analyze</button>
+
+        <div class="result">
+            <p id="palindromeResult"></p>
+            <p id="armstrongResult"></p>
+            <p id="primeResult"></p>
+            <p id="factorialResult"></p>
+        </div>
+    </div>
+
+    <script>
+        function isPalindrome(num) {
+            let original = num;
+            let reversed = 0;
+
+            while (num > 0) {
+                let digit = num % 10;
+                reversed = reversed * 10 + digit;
+                num = Math.floor(num / 10);
+            }
+
+            return original === reversed;
+        }
+
+        function isArmstrong(num) {
+            let original = num;
+            let sum = 0;
+            let digits = num.toString().length;
+
+            while (num > 0) {
+                let digit = num % 10;
+                sum += Math.pow(digit, digits);
+                num = Math.floor(num / 10);
+            }
+
+            return original === sum;
+        }
+
+        function isPrime(num) {
+            if (num <= 1) return false;
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) return false;
+            }
+            return true;
+        }
+
+        function factorial(num) {
+            if (num < 0) return "Not defined";
+            let result = 1;
+            for (let i = 1; i <= num; i++) {
+                result *= i;
+            }
+            return result;
+        }
+
+        function analyzeNumber() {
+            let num = parseInt(document.getElementById("numberInput").value);
+
+            document.getElementById("palindromeResult").innerText =
+                "Palindrome: " + (isPalindrome(num) ? "Yes" : "No");
+
+            document.getElementById("armstrongResult").innerText =
+                "Armstrong: " + (isArmstrong(num) ? "Yes" : "No");
+
+            document.getElementById("primeResult").innerText =
+                "Prime: " + (isPrime(num) ? "Yes" : "No");
+
+            document.getElementById("factorialResult").innerText =
+                "Factorial: " + factorial(num);
+        }
+    </script>
+
+</body>
+</html>
